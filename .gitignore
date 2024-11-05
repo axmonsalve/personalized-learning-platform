@@ -1,7 +1,15 @@
-# Node Modules
-node_modules/
-# Python Cache
-__pycache__/
-# Environment Variables
+# Node.js
+frontend/node_modules/
+
+# Entorno Virtual de Python
+backend/venv/
+
+# Archivos de configuración locales
 .env
+
+# Cachés
+__pycache__/
+*.pyc
+
+# Archivos de sistema
 .DS_Store
