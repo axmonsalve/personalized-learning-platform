@@ -1,0 +1,6 @@
+# Node Modules
+node_modules/
+# Python Cache
+__pycache__/
+# Environment Variables
+.env
