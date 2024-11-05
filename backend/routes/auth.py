@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from models.user import User, db
-from flask_jwt_extended import create_access_token
 
 auth = Blueprint('auth', __name__)
 
@@ -39,3 +39,15 @@ def login():
 
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token), 200
+
+@auth.route('/profile', methods=['GET'])
+@jwt_required()  # Protegemos la ruta con JWT
+def profile():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user).first()
+    if user:
+        return jsonify({
+            "username": user.username,
+            "message": "This is your profile information"
+        }), 200
+    return jsonify({"message": "User not found"}), 404

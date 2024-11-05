@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_jwt_extended.exceptions import NoAuthorizationError
 from models.user import db
 from routes.auth import auth
 
@@ -26,3 +27,12 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Crear tablas si no existen
     app.run(debug=True)
+
+# JWT Configuración en app.py
+jwt = JWTManager(app)
+
+@jwt.unauthorized_loader
+def unauthorized_callback(callback):
+    return jsonify({
+        "message": "Missing or invalid token. Please provide a valid access token."
+    }), 401
